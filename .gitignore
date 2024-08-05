@@ -3,6 +3,10 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+# Logs
+CompanyEmployees/internal_logs/
+internal_logs/
+
 # dotenv files
 .env
 
@@ -483,5 +487,3 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 
-# Logs
-CompanyEmployees/internal_logs
