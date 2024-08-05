@@ -20,6 +20,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllers(opt =>
 {
     opt.RespectBrowserAcceptHeader = true;
+    opt.ReturnHttpNotAcceptable = true;
 }).AddXmlDataContractSerializerFormatters()
   .AddApplicationPart(typeof(CompanyEmployees.Presentation.AssemblyReference).Assembly);
 
