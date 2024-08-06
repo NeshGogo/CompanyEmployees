@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using System.ComponentModel.Design;
 
 namespace Repository;
 
@@ -19,4 +20,7 @@ public class CompanyRepository : RepositoryBase<Company>, ICompanyRepository
         .SingleOrDefault();
 
     public void CreateCompany(Company company) => Create(company);
+
+    public IEnumerable<Company> GetByIds(IEnumerable<Guid> companyIds, bool trackChanges) =>
+         FindByCondition(c => companyIds.Contains(c.Id), trackChanges).ToList(); 
 }
