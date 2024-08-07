@@ -23,4 +23,6 @@ public class CompanyRepository : RepositoryBase<Company>, ICompanyRepository
 
     public IEnumerable<Company> GetByIds(IEnumerable<Guid> companyIds, bool trackChanges) =>
          FindByCondition(c => companyIds.Contains(c.Id), trackChanges).ToList(); 
+
+    public void DeleteCompany(Company company) => Delete(company);
 }

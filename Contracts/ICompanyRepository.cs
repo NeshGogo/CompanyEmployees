@@ -8,4 +8,5 @@ public interface ICompanyRepository
     Company GetCompany(Guid companyId, bool trackChanges);
     void CreateCompany(Company company);
     IEnumerable<Company> GetByIds(IEnumerable<Guid> companyIds, bool trackchanges);
+    void DeleteCompany (Company company);
 }

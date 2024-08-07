@@ -4,6 +4,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using System.ComponentModel.Design;
 
 namespace Service;
 
@@ -80,5 +81,15 @@ internal sealed class CompanyService : ICompanyService
         var ids = string.Join(',', entitiesDto.Select(entitiesDto => entitiesDto.Id));
 
         return (entitiesDto, ids);
+    }
+
+    public void DeleteCompany(Guid companyId, bool trackChanges)
+    {
+        var company = _repository.Company.GetCompany(companyId, trackChanges);
+        if (company == null)
+            throw new CompanyNotFoundException(companyId);
+
+        _repository.Company.DeleteCompany(company);
+        _repository.Save();
     }
 }
