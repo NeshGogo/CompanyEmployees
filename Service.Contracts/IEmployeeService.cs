@@ -5,13 +5,13 @@ namespace Service.Contracts;
 
 public interface IEmployeeService
 {
-    IEnumerable<EmployeeDto> GetEmployees(Guid companyId, bool trackChanges);
-    EmployeeDto GetEmployee(Guid companyId, Guid id, bool trackChanges);
-    EmployeeDto CreateEmployee(Guid companyId, EmployeeForCreationDto employee, bool trackChanges);
-    void DeleteEmployee(Guid companyId, Guid id, bool trackChanges);
-    void UpdateEmployee(Guid companyId, Guid id, EmployeeForUpdateDto employeeForUpdate, 
+    Task<IEnumerable<EmployeeDto>> GetEmployeesAsync(Guid companyId, bool trackChanges);
+    Task<EmployeeDto> GetEmployeeAsync(Guid companyId, Guid id, bool trackChanges);
+    Task<EmployeeDto> CreateEmployeeAsync(Guid companyId, EmployeeForCreationDto employee, bool trackChanges);
+    Task DeleteEmployeeAsync(Guid companyId, Guid id, bool trackChanges);
+    Task UpdateEmployeeAsync(Guid companyId, Guid id, EmployeeForUpdateDto employeeForUpdate, 
         bool compTrackChanges, bool empTrackChanges);
-    (EmployeeForUpdateDto employeeToPatch, Employee employee) GetEmployeeForPatch(Guid companyId, Guid id,
+    Task<(EmployeeForUpdateDto employeeToPatch, Employee employee)> GetEmployeeForPatchAsync(Guid companyId, Guid id,
         bool compTrackChanges, bool empTrackChanges);
-    void SaveChangesForPatch(EmployeeForUpdateDto employeeToPatch, Employee employee);
+    Task SaveChangesForPatchAsync(EmployeeForUpdateDto employeeToPatch, Employee employee);
 }
