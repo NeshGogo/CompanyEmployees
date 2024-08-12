@@ -20,7 +20,7 @@ public class ValidateMediaTypeAttribute : IActionFilter
 
         var mediaType = context.HttpContext.Request.Headers["Accept"].FirstOrDefault();
 
-        if(MediaTypeHeaderValue.TryParse(mediaType, out var outMediaType))
+        if(!MediaTypeHeaderValue.TryParse(mediaType, out var outMediaType))
         {
             context.Result = new BadRequestObjectResult("Media type not present. Please add Accept header " +
                 "with the required media type");
