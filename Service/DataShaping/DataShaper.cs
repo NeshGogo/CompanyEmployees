@@ -32,7 +32,7 @@ public class DataShaper<T> : IDataShaper<T> where T : class
     {
         var requiredProperties = new List<PropertyInfo>();
 
-        if (string.IsNullOrEmpty(fieldsString))
+        if (!string.IsNullOrEmpty(fieldsString))
         {
             var fields = fieldsString.Split(',', StringSplitOptions.RemoveEmptyEntries);
             foreach (var field in fields)
