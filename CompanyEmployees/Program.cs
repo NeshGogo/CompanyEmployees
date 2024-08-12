@@ -1,5 +1,6 @@
 using CompanyEmployees.Extensions;
 using CompanyEmployees.Presentation.ActionFilters;
+using CompanyEmployees.Utility;
 using Contracts;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureDataShaper();
+builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
 
 // Adding newtonsoft just for patch request.
 NewtonsoftJsonInputFormatter GetJsonPatchInputFormatter() =>
