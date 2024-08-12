@@ -1,5 +1,7 @@
 ﻿using Contracts;
 using LoggerService;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using Service;
@@ -45,5 +47,29 @@ public static class ServiceExtensions
 
     public static void ConfigureDataShaper(this IServiceCollection services) =>
         services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
+
+    public static void AddCustomMediaTypes(this IServiceCollection services)
+    {
+        services.Configure<MvcOptions>(config =>
+        {
+            var systemTextJsonOutputFormatter = config.OutputFormatters
+                .OfType<SystemTextJsonOutputFormatter>().FirstOrDefault();
+
+            if (systemTextJsonOutputFormatter != null)
+            {
+                systemTextJsonOutputFormatter.SupportedMediaTypes
+                    .Add("application/vnd.neshgogo.hateoas+json");
+            }
+
+            var xmlOutputFormatter = config.OutputFormatters
+                .OfType<XmlDataContractSerializerOutputFormatter>().FirstOrDefault();
+
+            if (xmlOutputFormatter != null)
+            {
+                xmlOutputFormatter.SupportedMediaTypes
+                    .Add("application/vnd.neshgogo.hateoas+xml");
+            }
+        });
+    }
 }
 
