@@ -41,6 +41,7 @@ builder.Services.AddControllers(opt =>
 builder.Services.AddCustomMediaTypes();
 
 builder.Services.AddScoped<ValidationFilterAttribute>();
+builder.Services.AddScoped<ValidateMediaTypeAttribute>();
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
