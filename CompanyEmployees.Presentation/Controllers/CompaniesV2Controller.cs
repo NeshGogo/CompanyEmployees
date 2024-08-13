@@ -5,7 +5,7 @@ using Service.Contracts;
 namespace CompanyEmployees.Presentation.Controllers;
 
 [ApiVersion("2.0")]
-[Route("api/companies")]
+[Route("api/{v:apiversion}/companies")]
 [ApiController]
 public class CompaniesV2Controller : ControllerBase
 {
@@ -17,6 +17,6 @@ public class CompaniesV2Controller : ControllerBase
     public async Task<IActionResult> GetCompanies()
     {
         var companies = await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false);
-        return Ok(companies);
+        return Ok(companies.Select(p => $"{p.Name} v2"));
     }
 }
