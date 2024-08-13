@@ -24,6 +24,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureDataShaper();
 builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
 builder.Services.ConfigureVersioning();
+builder.Services.ConfigureResponseCaching();
 
 // Adding newtonsoft just for patch request.
 NewtonsoftJsonInputFormatter GetJsonPatchInputFormatter() =>
@@ -37,6 +38,7 @@ builder.Services.AddControllers(opt =>
     opt.RespectBrowserAcceptHeader = true;
     opt.ReturnHttpNotAcceptable = true;
     opt.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
+    opt.CacheProfiles.Add("120SecondsDuration", new CacheProfile { Duration = 120 });
 }).AddXmlDataContractSerializerFormatters()
   .CustomCSVFormatter()
   .AddApplicationPart(typeof(CompanyEmployees.Presentation.AssemblyReference).Assembly);
@@ -69,6 +71,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 });
 
 app.UseCors("CorsPolicy");
+app.UseResponseCaching();
 
 app.UseAuthorization();
 

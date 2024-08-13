@@ -93,6 +93,8 @@ public static class ServiceExtensions
             opt.Conventions.Controller<CompaniesV2Controller>()
                 .HasApiVersion(new ApiVersion(2, 0));
         });
-   
+
+    public static void ConfigureResponseCaching(this IServiceCollection services) =>
+        services.AddResponseCaching();
 }
 
