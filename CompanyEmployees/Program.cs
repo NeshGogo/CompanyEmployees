@@ -25,6 +25,7 @@ builder.Services.ConfigureDataShaper();
 builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
 builder.Services.ConfigureVersioning();
 builder.Services.ConfigureResponseCaching();
+builder.Services.ConfigureHttpCacheHeaders();
 
 // Adding newtonsoft just for patch request.
 NewtonsoftJsonInputFormatter GetJsonPatchInputFormatter() =>
@@ -72,6 +73,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 
 app.UseCors("CorsPolicy");
 app.UseResponseCaching();
+app.UseHttpCacheHeaders();
 
 app.UseAuthorization();
 
