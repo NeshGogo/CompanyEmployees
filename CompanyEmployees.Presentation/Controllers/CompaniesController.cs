@@ -23,7 +23,7 @@ public class CompaniesController : ControllerBase
         return Ok();
     }
 
-    [HttpGet]
+    [HttpGet(Name = "GetCompanies")]
     public async Task<IActionResult> GetCompanies()
     {
         var companies = await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false);
@@ -44,7 +44,7 @@ public class CompaniesController : ControllerBase
         return Ok(companies);
     }
 
-    [HttpPost]
+    [HttpPost(Name = "CreateCompany")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto company)
     {
@@ -53,7 +53,7 @@ public class CompaniesController : ControllerBase
         return CreatedAtRoute("CompanyById", new { id = createdCompany.Id }, createdCompany);
     }
 
-    [HttpPost("Collection")]
+    [HttpPost("Collection", Name = "CreateCompanyCollection")]
     public async Task<IActionResult> CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyCollection)
     {
         var result = await _service.CompanyService.CreateCompanyCollectionAsync(companyCollection);

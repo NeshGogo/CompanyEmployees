@@ -59,6 +59,8 @@ public static class ServiceExtensions
             {
                 systemTextJsonOutputFormatter.SupportedMediaTypes
                     .Add("application/vnd.neshgogo.hateoas+json");
+                systemTextJsonOutputFormatter.SupportedMediaTypes
+                    .Add("application/vnd.neshgogo.apiroot+json");
             }
 
             var xmlOutputFormatter = config.OutputFormatters
@@ -68,6 +70,8 @@ public static class ServiceExtensions
             {
                 xmlOutputFormatter.SupportedMediaTypes
                     .Add("application/vnd.neshgogo.hateoas+xml");
+                xmlOutputFormatter.SupportedMediaTypes
+                    .Add("application/vnd.neshgogo.apiroot+xml");
             }
         });
     }
