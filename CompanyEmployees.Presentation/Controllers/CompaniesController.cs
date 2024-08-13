@@ -1,4 +1,5 @@
-﻿using CompanyEmployees.Presentation.ActionFilters;
+﻿using Asp.Versioning;
+using CompanyEmployees.Presentation.ActionFilters;
 using CompanyEmployees.Presentation.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -6,7 +7,7 @@ using Shared.DataTransferObjects;
 
 namespace CompanyEmployees.Presentation.Controllers;
 
-
+[ApiVersion("1.0")]
 [Route("api/companies")]
 [ApiController]
 public class CompaniesController : ControllerBase

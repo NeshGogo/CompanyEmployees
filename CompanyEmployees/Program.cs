@@ -23,6 +23,7 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureDataShaper();
 builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
+builder.Services.ConfigureVersioning();
 
 // Adding newtonsoft just for patch request.
 NewtonsoftJsonInputFormatter GetJsonPatchInputFormatter() =>
