@@ -190,8 +190,29 @@ public static class ServiceExtensions
     {
         services.AddSwaggerGen(s =>
         {
-            s.SwaggerDoc("v1", new OpenApiInfo { Title = "Neshgogo companyemployee API", Version = "v1" });
+            s.SwaggerDoc("v1", new OpenApiInfo 
+            { 
+                Title = "Neshgogo companyemployee API", 
+                Version = "v1",
+                Description = "CompanyEmployees API",
+                TermsOfService = new Uri("https://example.com/terms"),
+                Contact = new OpenApiContact 
+                {
+                    Name = "Rafael",
+                    Email = "nesh@test.com",
+                    Url = new Uri("https://twitter.com/neshgogo")
+                },
+                License = new OpenApiLicense 
+                { 
+                    Name = "CompanyEmployees API LICX",
+                    Url = new Uri("https://example.com/license")
+                }
+            });
             s.SwaggerDoc("v2", new OpenApiInfo { Title = "Neshgogo companyemployee API", Version = "v2" });
+
+            var xmlFile = $"{typeof(Presentation.AssemblyReference).Assembly.GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            s.IncludeXmlComments(xmlPath);
 
             s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {

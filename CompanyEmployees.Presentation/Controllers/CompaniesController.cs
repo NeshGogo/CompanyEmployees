@@ -27,6 +27,10 @@ public class CompaniesController : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Gets the list of all companies
+    /// </summary>
+    /// <returns>The companies list</returns>
     [HttpGet(Name = "GetCompanies")]
     //[ResponseCache(Duration = 60)]
     [Authorize]
@@ -51,6 +55,15 @@ public class CompaniesController : ControllerBase
         var companies = await _service.CompanyService.GetByIdsAsync(ids, trackChanges: false);
         return Ok(companies);
     }
+
+    /// <summary>
+    /// Creates a newly created company
+    /// </summary>
+    /// <param name="company"></param>
+    /// <returns>A newly created company</returns>
+    /// <response code="201">Returns the newly created item</response>
+    /// <response code="400">If the item is null</response>
+    /// <response code="422">If the model is invalid</response>
 
     [HttpPost(Name = "CreateCompany")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
