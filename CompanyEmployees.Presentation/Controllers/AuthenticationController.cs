@@ -30,4 +30,14 @@ public class AuthenticationController : ControllerBase
 
         return StatusCode(201);
     }
+
+    [HttpPost("Login")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> Autheticate([FromBody] UserForAuthenticationDto user)
+    {
+        if(!await _service.AuthenticationService.ValidateUser(user))
+            return Unauthorized();
+       
+        return Ok(new { Token = await _service.AuthenticationService.CreateToken() });
+    }
 }
