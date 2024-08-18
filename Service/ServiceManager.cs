@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entities.ConfigurationModels;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 
@@ -16,7 +17,7 @@ public sealed class ServiceManager : IServiceManager
 
     public ServiceManager(IRepositoryManager repository, ILoggerManager logger,
         IMapper mapper, IDataShaper<EmployeeDto> dataShapper, IEmployeeLinks employeeLinks,
-        UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IOptionsSnapshot<JwtConfiguration> configuration)
     {
         _companyService = new Lazy<ICompanyService>(() => new CompanyService(repository, logger, mapper));
         _employeeService = new Lazy<IEmployeeService>(() =>
