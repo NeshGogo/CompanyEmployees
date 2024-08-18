@@ -1,19 +1,22 @@
 ﻿using Asp.Versioning;
+using AspNetCoreRateLimit;
+using CompanyEmployees.Presentation.Controllers;
 using Contracts;
+using Entities.Models;
 using LoggerService;
+using Marvin.Cache.Headers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Service;
 using Service.Contracts;
 using Service.DataShaping;
 using Shared.DataTransferObjects;
-using CompanyEmployees.Presentation.Controllers;
-using Marvin.Cache.Headers;
-using AspNetCoreRateLimit;
-using Entities.Models;
-using Microsoft.AspNetCore.Identity;
+using System.Text;
 
 namespace CompanyEmployees.Extensions;
 
@@ -45,7 +48,7 @@ public static class ServiceExtensions
         services.AddScoped<IServiceManager, ServiceManager>();
 
     public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
-        services.AddDbContext<RepositoryContext>(opts => 
+        services.AddDbContext<RepositoryContext>(opts =>
             opts.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
 
     public static IMvcBuilder CustomCSVFormatter(this IMvcBuilder builder) =>
@@ -148,6 +151,32 @@ public static class ServiceExtensions
         })
         .AddEntityFrameworkStores<RepositoryContext>()
         .AddDefaultTokenProviders();
+    }
+
+    public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
+    {
+        var jwtSettings = configuration.GetSection("JwtSettings");
+        var secretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
+
+        services.AddAuthentication(opt =>
+        {
+            opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(opt =>
+        {
+            opt.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+
+                ValidIssuer = jwtSettings["ValidIssuer"],
+                ValidAudience = jwtSettings["ValidAudience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+            };
+        });
     }
 }
 
