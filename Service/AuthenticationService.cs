@@ -97,6 +97,20 @@ public sealed class AuthenticationService : IAuthenticationService
         return new (accessToken, refreshToken);
     }
 
+    public async Task<TokenDto> RefreshToken(TokenDto tokenDto)
+    {
+        var principal = GetClaimsPrincipalFromExpiredToken(tokenDto.AccessToken);
+
+        var user = await _userManager.FindByNameAsync(principal.Identity.Name);
+
+        if (user == null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            throw new RefreshTokenBadRequestException();
+
+        _user = user;
+
+        return await CreateToken(populateExp: false);
+    }
+
     private SigningCredentials GetSigningCredentials()
     {
         var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET_KEY"));
