@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Entities.Responses;
 
-namespace Entities.Responses
+public sealed class CompanyNotFoundResponse : ApiNotFoundResponse
 {
-    internal class CompanyNotFoundResponse
+    public CompanyNotFoundResponse(Guid id)
+        : base($"Company with id: {id} is not found in db.")
     {
+        
     }
 }
