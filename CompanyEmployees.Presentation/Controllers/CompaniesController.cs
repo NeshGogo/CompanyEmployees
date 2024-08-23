@@ -39,5 +39,16 @@ public class CompaniesController : ControllerBase
         var company = await _sender.Send(new CreateCompanyCommand(companyForCreation));
 
         return CreatedAtRoute("GetCompanyById", new { id = company.Id }, company);
-    } 
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateCompany(Guid id, CompanyForUpdateDto companyForUpdate)
+    {
+        if (companyForUpdate is null)
+            return BadRequest("CompanyForUpdateDto object is null");
+
+        await _sender.Send(new UpdateCompanyCommand(id, companyForUpdate, TrackChanges: true));
+
+        return NoContent();
+    }
 }
