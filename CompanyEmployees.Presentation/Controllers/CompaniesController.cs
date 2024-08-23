@@ -51,4 +51,12 @@ public class CompaniesController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteCompany(Guid id)
+    {
+        await _sender.Send(new DeleteCompanyCommand(id, TrackChanges: false));
+
+        return NoContent();
+    }
 }
