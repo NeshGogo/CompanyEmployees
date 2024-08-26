@@ -40,8 +40,8 @@ public class CompaniesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto companyForCreation)
     {
-        if (companyForCreation is null)
-            return BadRequest("CompanyForCreationDto object is null");
+        /*if (companyForCreation is null)
+            return BadRequest("CompanyForCreationDto object is null");*/
 
         var company = await _sender.Send(new CreateCompanyCommand(companyForCreation));
 
